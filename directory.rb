@@ -11,6 +11,7 @@ def print_menu
     puts "press 1 to Input students"
     puts "press 2 to show the students"
     puts "press 3 to save the list to students.csv"
+    puts "press 4 to load the list from students.csv"
     puts "press 9 to exit"
 end
 
@@ -41,6 +42,8 @@ def process(user_choice)
             show_students
         when "3"
             save_students
+        when "4"
+            load_students
         when "9"
             exit
         else 
@@ -68,8 +71,18 @@ def save_students
 
     @students.each do|student|
         student_data = [student[:name], student[:cohort]]
-        csv_line = student_data.join(", ")
+        csv_line = student_data.join(",")
         file.puts csv_line
+    end
+    file.close
+end
+
+def load_students
+    file = File.open("students.csv", "r")
+    
+    file.readLines.each do |line|
+        name, cohort = line.chomp.split(",")
+        @students << {name: name, cohort: cohort.to_sym}
     end
     file.close
 end
