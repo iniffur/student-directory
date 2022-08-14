@@ -29,10 +29,19 @@ def print_header
 end
 
 def print(students)
-    students.each_with_index do |student, index|
-        if student[:name].length < 12
-        puts "#{index + 1}. #{student[:name]} (#{student[:cohort]})".center(50)
+    cohort_groups = {}
+    students.each do |student|
+   
+        cohort = student[:cohort]
+
+        if cohort_groups[cohort] == nil
+            cohort_groups[cohort] = []
         end
+        cohort_groups[cohort] << student[:name]
+    end
+
+    cohort_groups.map do |student|
+        puts student
     end
 end
 
